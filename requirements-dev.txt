@@ -1,0 +1,12 @@
+anybadge
+coverage[toml]
+coverage-badge
+mock
+pylint >= 2.8
+pylint-exit
+pytest >= 6
+pytest-cov
+mutable-primitives>=0.0.6
+setuptools
+twine
+wheel

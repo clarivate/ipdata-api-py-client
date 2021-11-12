@@ -1,0 +1,13 @@
+*~
+*.log*
+*.swp
+.coverage
+.venv
+*.pyc
+
+__pycache__
+coverage.svg
+pylint.log
+pylint.svg
+pytest.log
+pytest-junit.xml

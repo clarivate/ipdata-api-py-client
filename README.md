@@ -1,4 +1,4 @@
-A client and sample code for Clarivate's IP Data API interface for application developers.
+A client interface and sample code for Clarivate's IP Data-API (https://developer.clarivate.com/apis/ipdata-api)
 
 
 # IPData-API Client

@@ -1,15 +1,16 @@
-A blackbox IPCloud Data API interface for application developers.
+A client interface and sample code for Clarivate's IP Data-API (https://developer.clarivate.com/apis/ipdata-api)
 
 
-# IPData-API Wrapper 
+# IPData-API Client
 
-The IPData-API Wrapper is a blackbox IPCloud Data API interface of Clarivate IPData-API for application developers.
+The IPData-API Client is a helper class for Clarivate's IP Data API interface for application developers.
 
-Related Documentation: https://developer.clarivate.com/apis/ipdata-api 
+Full Documentation for the IPData-API is available here: https://developer.clarivate.com/apis/ipdata-api 
 
 ## Project structure
 
-* [ipdata.py][query.py] contains the core wrapper code for IPData-API endpoints.
+* [ipdata.py][query.py] contains the IPDataClient and supporting classes which interface with IPData-API endpoints.
+* [helpers.py] contains helper functions to leverage the IPDataClient for common use cases.
 * [field_list.py] contains the list of fields that are currently available for IPData-API.
 * [examples] contains some showcase examples of how to use the IPData-API wrapper.
 

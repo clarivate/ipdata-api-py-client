@@ -24,9 +24,9 @@ def example_caselaw_bool():
         #####################################
         # # if user like to have muitlple filters in the same bool queries, we can append it to the current bool query using build_fltr_combine()
         # filter_three = client.build_fltr(fld="PARTY_OPTIMIZED_NAME", op="EQ", val="MICROSOFT")
-        # filter_combined = client.build_fltr_combine(fltr_one=filter_combined, fltr_two=filter_three, bool_op="AND", flat=True)
+        # filter_combined = client.build_fltr_combine(fltr_one=filter_combined, fltr_two=filter_three, bool_op="OR", flat=True)
         # print(filter_combined.fltr)
-        # # [[{'ALG': 'SQL', 'FIELD': 'EX_OFFICIO', 'OP': 'EQ', 'VALUE': 'False'}], 'AND', [{'ALG': 'SQL', 'FIELD': 'PARTY_OPTIMIZED_NAME', 'OP': 'EQ', 'VALUE': 'GOOGLE'}], 'AND', [{'ALG': 'SQL', 'FIELD': 'PARTY_OPTIMIZED_NAME', 'OP': 'EQ', 'VALUE': 'MICROSOFT'}]]
+        # # [[{'ALG': 'SQL', 'FIELD': 'EX_OFFICIO', 'OP': 'EQ', 'VALUE': 'False'}], 'AND', [{'ALG': 'SQL', 'FIELD': 'PARTY_OPTIMIZED_NAME', 'OP': 'EQ', 'VALUE': 'GOOGLE'}], 'OR', [{'ALG': 'SQL', 'FIELD': 'PARTY_OPTIMIZED_NAME', 'OP': 'EQ', 'VALUE': 'MICROSOFT'}]]
         #####################################
 
         # 3. complete the filter section by adding the constructed filter object using add_fltr_obj(), you can always reset it using reset_fltr()

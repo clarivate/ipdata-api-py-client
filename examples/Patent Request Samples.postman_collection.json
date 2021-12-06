@@ -1,0 +1,524 @@
+{
+	"info": {
+		"_postman_id": "134c34ed-55e0-4ea0-9f46-0daa8ffcb34b",
+		"name": "Patent Request Samples",
+		"description": "# Introduction\n\nAPI to test the IP Cloud libraries to retrieve and analyze the Patent results.\n\n# Overview\n\nThe API exposes core features of IP Cloud Patent where users can analyze the cross data using various combination of the features.\n\n# Authentication\n\nAuthorization - Bearer Token\n\n# Rate limit\n\nThe API throttles the user out puts based on the user subscription.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Retrieve fields with Alias",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"DIALOG_PATENT\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"US20130215948A1\"\r\n        }\r\n    ],\r\n    \"FIELDS\": {\r\n        \"DIALOG_PATENT\": \"DIALOG PATENT\",\r\n        \"ORIGINAL_NUMBER\": \"ORIGINAL NUMBER\",\r\n        \"BASIC_PATENT\": \"BASIC PATENT\",\r\n        \"INVENTOR_NAME\": \"INVENTOR NAME\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				},
+				"description": "#Aliases are the temporary names given to a retrieved field for the purpose of a a API request."
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve fields without Alias",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"DIALOG_PATENT\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"US20130215948A1\"\r\n        }\r\n    ],\r\n    \"FIELDS\": [\r\n        \"DIALOG_PATENT\",\r\n        \"ORIGINAL_NUMBER\",\r\n        \"BASIC_PATENT\",\r\n        \"INVENTOR_NAME\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query operators with pagination",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"OP\": \"GE\",\r\n            \"VALUE\": \"2020-01-01\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"OP\": \"LT\",\r\n            \"VALUE\": \"2021-01-01\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"INVENTOR_COUNTRY\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"IN\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"UPPER(INVENTOR_CITY)\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"BANGLORE\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"DEAD_ALIVE_STATUS\",\r\n            \"OP\": \"IS\",\r\n            \"VALUE\": \"NOT NULL\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"LOWER(INVENTOR_NAME)\",\r\n            \"OP\": \"LIKE\",\r\n            \"VALUE\": \"%rahul%\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"INVENTOR_NAME\",\r\n            \"OP\": \"STARTSWITH\",\r\n            \"VALUE\": \"Jain\"\r\n        }\r\n    ],\r\n    \"FIELDS\": [\r\n        \"DIALOG_PATENT\",\r\n        \"DEAD_ALIVE_STATUS\",\r\n        \"PUBLICATION_DATE\",\r\n        \"DW_TITLE\",\r\n        \"STATUS\",\r\n        \"INVENTOR_NAME\",\r\n        \"DW_INVENTOR\",\r\n        \"DWPI_INVENTOR_NAME\",\r\n        \"INVENTOR_ADDRESS\",\r\n        \"INVENTOR_CITY\",\r\n        \"INVENTOR_COUNTRY\"\r\n    ],\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				},
+				"description": "Comparison operators\n\nINVENTOR\\_CITY EQ BANGLORE  \nDEAD\\_ALIVE\\_STATUS NE A  \nPUBLICATION\\_DATE LE 2021-01-01  \nPUBLICATION\\_DATE LT 2021-01-01  \nPUBLICATION\\_DATE GE 2020-01-01  \nPUBLICATION\\_DATE GT 2020-01-01\n\nBoolean Operators  \nCondition1 AND Condition2  \nCondition1 OR Condition2\n\nIS Operator  \nCOPYRIGHT\\_TYPE IS NULL  \nCOPYRIGHT\\_TYPE IS NOT NULL (operator 'IS', value 'NOT NULL')\n\nIN Operator  \nINVENTOR\\_COUNTRY IN IN,CN\n\nString Comparison  \nINVENTOR\\_NAME STARTSWITH JAIN  \nINVENTOR\\_NAME ENDSSWITH RAHUL  \nINVENTOR\\_NAME LIKE %RAHUL%\n\nPagination  \nLimit : Limit the number of results with the this parameter.  \nLIMIT 10\n\nOffset : allows you to omit a specified number of rows before the beginning of the result set.  \nOffset 5\n\n#This sample request retrieves patent numbers and titles in year 2020 where inventor was based in Banglore, India and inventor name is \"jain rahul\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Sort By",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"2020-01-01\"\r\n        }\r\n    ],\r\n    \"FIELDS\": [\r\n        \"DIALOG_PATENT\",\r\n        \"DEAD_ALIVE_STATUS\",\r\n        \"PUBLICATION_DATE\",\r\n        \"DW_TITLE\"\r\n    ],\r\n    \"ORDER BY\": {\r\n        \"DIALOG_PATENT\": true\r\n    },\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				},
+				"description": "ORDERBY :true (Ascending=True)\n\n#This sample request retrieves patent numbers where publication date is 2020-01-01 sorted by patent numbers in ascending order"
+			},
+			"response": []
+		},
+		{
+			"name": "Aggregate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"2020-01-01\"\r\n        }\r\n    ],\r\n    \"FIELDS\": [\r\n        \"COUNTRY_CODE\"\r\n    ],\r\n    \"GROUPBY\": [\r\n        \"COUNTRY_CODE\"\r\n    ],\r\n    \"AGG\": [\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DISTINCT(DIALOG_PATENT)\",\r\n            \"ALIAS\": \"COUNT_PATENTS\"\r\n        }\r\n    ],\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				},
+				"description": "#Fetch country wise count of patents where publication date is 2020-01-01."
+			},
+			"response": []
+		},
+		{
+			"name": "Aggregate with functions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"OP\": \"GE\",\r\n            \"VALUE\": \"2020-01-01\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"OP\": \"LT\",\r\n            \"VALUE\": \"2021-01-01\"\r\n        }\r\n    ],\r\n    \"FIELDS\": [\r\n        \"COUNTRY_CODE\"\r\n    ],\r\n    \"GROUPBY\": [\r\n        \"COUNTRY_CODE\"\r\n    ],\r\n    \"AGG\": [\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DISTINCT(DIALOG_PATENT)\",\r\n            \"ALIAS\": \"COUNT_PATENTS\"\r\n        },\r\n        {\r\n            \"FUNC\": \"MIN\",\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"ALIAS\": \"MIN_PUBLICATION_DATE\"\r\n        },\r\n        {\r\n            \"FUNC\": \"MAX\",\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"ALIAS\": \"MAX_PUBLICATION_DATE\"\r\n        }\r\n    ],\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				},
+				"description": "#This sample request explains how aggregate functions can be used."
+			},
+			"response": []
+		},
+		{
+			"name": "Number of patents per registration office",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"FIELD\": \"PUBLICATION_DATE\",\r\n            \"OP\": \"GE\",\r\n            \"VALUE\": \"1900-01-01\"\r\n        }\r\n    ],\r\n    \"FIELDS\": [\r\n        \"REGISTRATION_OFFICE\"\r\n    ],\r\n    \"GROUPBY\": [\r\n        \"REGISTRATION_OFFICE\"\r\n    ],\r\n    \"AGG\": [\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DISTINCT(DWPI_PUBLICATION_NUMBER)\",\r\n            \"ALIAS\": \"PATENTS PER REGISTRATION_OFFICE\"\r\n        }\r\n    ],\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				},
+				"description": "#Number of patents per registration office."
+			},
+			"response": []
+		},
+		{
+			"name": "Patents & Inventions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"FIELD\": \"ULTIMATE_PARENT\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"FACEBOOK INC\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"FIELD\": \"PRIORITY_YEAR\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"2017\"\r\n        }\r\n    ],\r\n    \"FIELDS\": {\r\n        \"ULTIMATE_PARENT\":\"INVENTOR COMPANY\"\r\n    },\r\n    \"AGG\": [\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DOCUMENT_GUID\",\r\n            \"ALIAS\": \"NR DOCUMENTS\"\r\n        },\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DWPI_PUBLICATION_NUMBER\",\r\n            \"ALIAS\": \"NR PATENTS\"\r\n        },\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DWPI_ACCESSION_NUMBER\",\r\n            \"ALIAS\": \"NR INVENTIONS\"\r\n        }\r\n    ],\r\n    \"GROUPBY\": [\r\n        \"ULTIMATE_PARENT\"\r\n    ],\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				},
+				"description": "#You can do analytics against all global patent collection or focus on one record per DWPI Invention."
+			},
+			"response": []
+		},
+		{
+			"name": "One Per Invention",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"FIELD\": \"ULTIMATE_PARENT\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"FACEBOOK INC\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"FIELD\": \"PRIORITY_YEAR\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"2017\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"FIELD\": \"QUERY\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"onePerinventions\"\r\n        }        \r\n    ],\r\n    \"FIELDS\": {\r\n        \"ULTIMATE_PARENT\":\"INVENTOR COMPANY\"\r\n    },\r\n    \"AGG\": [\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DOCUMENT_GUID\",\r\n            \"ALIAS\": \"NR DOCUMENTS\"\r\n        },\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DWPI_PUBLICATION_NUMBER\",\r\n            \"ALIAS\": \"NR PATENTS\"\r\n        },\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DWPI_ACCESSION_NUMBER\",\r\n            \"ALIAS\": \"NR INVENTIONS\"\r\n        }\r\n    ],\r\n    \"GROUPBY\": [\r\n        \"ULTIMATE_PARENT\"\r\n    ],\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				},
+				"description": "#Query against DWPI patent families , only the basic patent from the family is taken into account."
+			},
+			"response": []
+		},
+		{
+			"name": "Top inventor companies",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"FIELD\": \"ULTIMATE_PARENT\",\r\n            \"OP\": \"IS\",\r\n            \"VALUE\": \"NOT NULL\"\r\n        }\r\n      ],\r\n    \"FIELDS\": [\r\n        \"ULTIMATE_PARENT\"\r\n    ],\r\n    \"GROUPBY\": [\r\n        \"ULTIMATE_PARENT\"\r\n    ],\r\n    \"AGG\": [\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DWPI_ACCESSION_NUMBER\",\r\n            \"ALIAS\": \"NR INVENTIONS\"\r\n        }\r\n    ],    \r\n    \"ORDER BY\": {\r\n        \"COUNT(DWPI_ACCESSION_NUMBER)\": false\r\n    },\r\n    \"LIMIT\": 100,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Number of patents by publication year",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"FIELD\": \"UPPER(ULTIMATE_PARENT)\",\r\n            \"OP\": \"LIKE\",\r\n            \"VALUE\": \"%CAMELOT UK BIDCO%\"\r\n        }\r\n    ],\r\n    \"FIELDS\": {\r\n        \"ULTIMATE_PARENT\":\"INVENTOR COMPANY\",\r\n        \"PUBLICATION_YEAR\":\"PUBLICATION_YEAR\"\r\n    },\r\n    \"GROUPBY\": {\r\n        \"ULTIMATE_PARENT\":\"INVENTOR COMPANY\",\r\n        \"PUBLICATION_YEAR\":\"PUBLICATION_YEAR\"\r\n    },\r\n    \"AGG\": [\r\n        {\r\n            \"FUNC\": \"COUNT\",\r\n            \"FIELD\": \"DISTINCT(DOCUMENT_GUID)\",\r\n            \"ALIAS\": \"COUNT_PATENTS\"\r\n        }\r\n    ],    \r\n    \"ORDER BY\": {\r\n        \"PUBLICATION_YEAR\": false\r\n    },\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/patents/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"patents",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

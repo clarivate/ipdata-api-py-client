@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "5ce2dcdf-3d53-4ed1-b5d1-ee12b5405133",
+		"name": "Caselaw Request Samples",
+		"description": "# Introduction\nAPI to test the IP Cloud libraries to retrieve and analyze the Caselaw results. \n\n# Overview\nThe API exposes core features of IP Cloud Caselaw where users can analyze the cross data  using various combination of the features.\n\n# Authentication\nClarivate VPN.\n\n# Rate limit\nThe API throttles the user out puts based on the user subscription.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Query operators with pagination",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"PARTY_OPTIMIZED_NAME\",\r\n            \"OP\": \"LIKE\",\r\n            \"VALUE\": \"APPLE\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"SQL\",\r\n            \"FIELD\": \"FIRST_ACTION_DATE\",\r\n            \"OP\": \"GT\",\r\n            \"VALUE\": \"2019-01-01\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"FIRST_ACTION_DATE\",\r\n            \"OP\": \"LT\",\r\n            \"VALUE\": \"2020-01-01\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"PARTY_ROLE\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"DEFENDANT\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"FIRST_ACTION_TYPE\",\r\n            \"OP\": \"NE\",\r\n            \"VALUE\": \"OPPOSITION\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"COPYRIGHT_TYPE\",\r\n            \"OP\": \"IS\",\r\n            \"VALUE\": \"NOT NULL\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"COPYRIGHT_TYPE\",\r\n            \"OP\": \"STARTSWITH\",\r\n            \"VALUE\": \"MUSICAL\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"AREA\",\r\n            \"OP\": \"IN\",\r\n            \"VALUE\": \"USA,CHINA\"\r\n        }\r\n    ],\r\n    \"FIELDS\": {\r\n        \"BINDER_ID\": \"BINDER_ID\",\r\n        \"FIRST_ACTION_TYPE\": \"FIRST_ACTION_TYPE\",\r\n        \"FIRST_ACTION_DATE\": \"FIRST_ACTION_DATE\",\r\n        \"AREA\": \"AREA\",\r\n        \"PARTY_OPTIMIZED_NAME\": \"PARTY_OPTIMIZED_NAME\",\r\n        \"PARTY_ROLE\": \"PARTY_ROLE\",\r\n        \"COPYRIGHT_TYPE\": \"COPYRIGHT_TYPE\"\r\n    },\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/caselaw/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"caselaw",
+						"search"
+					]
+				},
+				"description": "#Comparison operators\n\nPARTY_OPTIMIZED_NAME EQ APPLE\nFIRST_ACTION_TYPE NE OPPOSITION\nFIRST_ACTION_DATE LE 2020-01-01\nFIRST_ACTION_DATE LT 2020-01-01\nFIRST_ACTION_DATE GE 2019-01-01\nFIRST_ACTION_DATE GT 2019-01-01\n\n#Boolean Operators \nCondition1 AND Condition2\nCondition1 OR Condition2\n\n#IS Operator\nCOPYRIGHT_TYPE IS NULL\nCOPYRIGHT_TYPE IS NOT NULL  (operator 'IS', value 'NOT NULL') \n\n#IN Operator\nAREA IN USA,CHINA\n\n#String Comparison\nCOPYRIGHT_TYPE STARTSWITH MUSICAL\nCOPYRIGHT_TYPE ENDSWITH WORK\nCOPYRIGHT_TYPE LIKE %MUSICAL%\n\n#Pagination\nLimit : Limit the number of results with the this parameter.\nLIMIT 10\n\nOffset : allows you to omit a specified number of rows before the beginning of the result set.\nOffset 5\n\n#This is sample request to search non-opposition caselaw against Apple in the year 2019 where COPYRIGHT_TYPE startswith MUSICAL and within USA,CHINA area."
+			},
+			"response": []
+		},
+		{
+			"name": "Sort By",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"PARTY_ROLE\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"DEFENDANT\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"FIRST_ACTION_TYPE\",\r\n            \"OP\": \"NE\",\r\n            \"VALUE\": \"OPPOSITION\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"PARTY_OPTIMIZED_NAME\",\r\n            \"OP\": \"IS\",\r\n            \"VALUE\": \"NOT NULL\"\r\n        }\r\n    ],\r\n    \"FIELDS\": {\r\n        \"PARTY_OPTIMIZED_NAME\": \"PARTY_OPTIMIZED_NAME\"\r\n    },\r\n    \"ORDER BY\":{\"PARTY_OPTIMIZED_NAME\":true },     \r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/caselaw/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"caselaw",
+						"search"
+					]
+				},
+				"description": "ORDERBY <FIELD_NAME> :true  (Ascending=True)\n\n#This is a sample list non-opposition PARTY_OPTIMIZED_NAME sorted Ascending Order."
+			},
+			"response": []
+		},
+		{
+			"name": "Aggregate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"PARTY_ROLE\",\r\n            \"OP\": \"EQ\",\r\n            \"VALUE\": \"DEFENDANT\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"FIRST_ACTION_TYPE\",\r\n            \"OP\": \"NE\",\r\n            \"VALUE\": \"OPPOSITION\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"PARTY_COUNTRY\",\r\n            \"OP\": \"IS\",\r\n            \"VALUE\": \"NOT NULL\"\r\n        },\r\n        {\r\n            \"ALG\": \"SQL\",\r\n            \"FIELD\": \"FIRST_ACTION_DATE\",\r\n            \"OP\": \"GT\",\r\n            \"VALUE\": \"2019-01-01\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"BASIC\",\r\n            \"FIELD\": \"FIRST_ACTION_DATE\",\r\n            \"OP\": \"LT\",\r\n            \"VALUE\": \"2020-01-01\"\r\n        }\r\n    ],\r\n    \"GROUPBY\":[\r\n                \"PARTY_COUNTRY\"\r\n            ], \r\n     \"AGG\":  [\r\n                {\r\n                 \"FUNC\": \"COUNT\",\r\n                \"FIELD\": \"BINDER_ID\",\r\n                \"ALIAS\": \"TOTAL_CASES\"\r\n                }\r\n            ],\r\n    \r\n    \"FIELDS\": {\r\n        \"PARTY_COUNTRY\": \"PARTY_COUNTRY\"\r\n    },\r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/caselaw/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"caselaw",
+						"search"
+					]
+				},
+				"description": "#This a sample request to fetch non-opposition number of cases in year 2019 per Country."
+			},
+			"response": []
+		},
+		{
+			"name": "Aggregate Functions, Group By , Order By",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\":[{\r\n                \"ALG\":\"SQL\",\r\n                \"FIELD\":\"PARTY_OPTIMIZED_NAME\",\r\n                \"OP\":\"LIKE\",\r\n                \"VALUE\":\"%NEWSPAPER%\"\r\n            },\r\n            \"AND\",\r\n            {\r\n           \"ALG\":\"BASIC\",\r\n           \"FIELD\":\"PARTY_ROLE\",\r\n           \"OP\":\"EQ\",\r\n           \"VALUE\":\"DEFENDANT\"\r\n            },\r\n            \"AND\",\r\n            {\r\n           \"ALG\":\"BASIC\",\r\n           \"FIELD\":\"FIRST_ACTION_TYPE\",\r\n           \"OP\":\"NE\",\r\n           \"VALUE\":\"OPPOSITION\"\r\n            },\r\n            \"AND\",\r\n            {\r\n           \"ALG\":\"BASIC\",\r\n           \"FIELD\":\"DAMAGE_AMOUNT\",\r\n           \"OP\":\"IS\",\r\n           \"VALUE\":\"NOT NULL\"\r\n            }\r\n            ],\r\n    \"AGG\":  [\r\n                {\r\n                 \"FUNC\": \"COUNT\",\r\n                \"FIELD\": \"PARTY_OPTIMIZED_NAME\",\r\n                \"ALIAS\": \"PARTY_OPTIMIZED_NAME\"\r\n                },\r\n                {\r\n                 \"FUNC\": \"AVG\",\r\n                \"FIELD\": \"DAMAGE_AMOUNT\",\r\n                \"ALIAS\": \"AVERAGE_DAMAGE_AMOUNT\"\r\n                },\r\n                {\r\n                 \"FUNC\": \"SUM\",\r\n                \"FIELD\": \"DAMAGE_AMOUNT\",\r\n                \"ALIAS\": \"TOTAL_DAMAGE_AMOUNT\"\r\n                },                \r\n                {\r\n                 \"FUNC\": \"MIN\",\r\n                \"FIELD\": \"DOCUMENT_DATE\",\r\n                \"ALIAS\": \"MIN_DOCUMENT_DATE\"\r\n                },\r\n                {\r\n                 \"FUNC\": \"MAX\",\r\n                \"FIELD\": \"DOCUMENT_DATE\",\r\n                \"ALIAS\": \"LATEST_DOCUMENT_DATE\"\r\n                }                                                \r\n            ],\r\n    \"GROUPBY\":[\r\n                \"PARTY_OPTIMIZED_NAME\"\r\n            ],            \r\n    \"ORDER BY\":{\"PARTY_OPTIMIZED_NAME\":true },            \r\n    \"FIELDS\":{\r\n                \"PARTY_OPTIMIZED_NAME\":\"PARTY_OPTIMIZED_NAME\"\r\n            }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/caselaw/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"caselaw",
+						"search"
+					]
+				},
+				"description": "#This a sample request to fetch Average Damage amount, Total Damage Amount, Earliest Document Date, Latest Document Date per party"
+			},
+			"response": []
+		},
+		{
+			"name": "EX_OFFICIO",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ee006040b95e1ee96dd24906331919e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ApiKey",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"QUERY\": [\r\n        {\r\n            \"ALG\": \"SQL\",\r\n            \"OP\": \"EQ\",\r\n            \"FIELD\": \"EX_OFFICIO\",\r\n            \"VALUE\": \"False\"\r\n        },\r\n        \"AND\",\r\n        {\r\n            \"ALG\": \"SQL\",\r\n            \"OP\": \"EQ\",\r\n            \"FIELD\": \"PARTY_OPTIMIZED_NAME\",\r\n            \"VALUE\": \"SHOEI\"\r\n        }\r\n    ],\r\n    \"FIELDS\": [\r\n        \"DOCKET_REFERENCE\",\r\n        \"DOCKET_COURT_NAME\",\r\n        \"BINDER_ID\",\r\n        \"PARTY_OPTIMIZED_NAME\"\r\n    ],\r\n    \"ORDER BY\":{\"PARTY_OPTIMIZED_NAME\":true },     \r\n    \"LIMIT\": 10,\r\n    \"OFFSET\": 0\r\n}    ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.clarivate.com/caselaw/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"clarivate",
+						"com"
+					],
+					"path": [
+						"caselaw",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

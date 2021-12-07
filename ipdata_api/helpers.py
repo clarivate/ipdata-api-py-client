@@ -91,7 +91,9 @@ def get_derived_case_status(case_json):
         Open, Terminated
         If WITHDRAWN OR SETTLED OR CLOSED = TRUE, then case is Terminated, else Open (or undefined would be more appropriate)
     '''
-    WITHDRAWN, SETTLED, CLOSED = case_json[0]["BINDER"].get("WITHDRAWN", "False"), case_json[0]["BINDER"].get("SETTLED", "False"), case_json[0]["BINDER"].get("CLOSED", "False")
+    cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    # cj = case_json[0]
+    WITHDRAWN, SETTLED, CLOSED = cj["BINDER"].get("WITHDRAWN", "False"), cj["BINDER"].get("SETTLED", "False"), cj["BINDER"].get("CLOSED", "False")
     case_status = "Open"
     if WITHDRAWN == "True" or SETTLED == "True" or CLOSED == "True":
         case_status = "Terminated"
@@ -109,7 +111,9 @@ def get_derived_case_type_list(case_json):
         DOMAIN_IS_UNFAIR_COMPETITION
         DOMAIN_IS_OTHER
     '''
-    domains = case_json[0]["BINDER"].get("DOMAINS", None)
+    cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    # cj = case_json[0]
+    domains = cj["BINDER"].get("DOMAINS", None)
     return domains
  
 def get_derived_case_resolution(case_json):
@@ -121,7 +125,9 @@ def get_derived_case_resolution(case_json):
            else if there is at least 1 document with document type "on the merits" with a document_winner value, take the value from the most recent of those documents (i.e. "APPLICANT WIN", "OPPONENT WIN", "NONE WIN", "BOTH WIN")
            else "UNKNOWN"
     '''
-    WITHDRAWN, SETTLED, CLOSED = case_json[0]["BINDER"].get("WITHDRAWN", "False"), case_json[0]["BINDER"].get("SETTLED", "False"), case_json[0]["BINDER"].get("CLOSED", "False")
+    cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    # cj = case_json[0]
+    WITHDRAWN, SETTLED, CLOSED = cj["BINDER"].get("WITHDRAWN", "False"), cj["BINDER"].get("SETTLED", "False"), cj["BINDER"].get("CLOSED", "False")
     case_resolution = "UNKNOWN"
     if SETTLED == "True":
         case_resolution = "SETTLED"
@@ -130,23 +136,23 @@ def get_derived_case_resolution(case_json):
     else:
         most_recent_doc_index = 0
         most_recent_date = datetime(1900, 1, 1)
-        if "DOCUMENT_DATE" in case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"][0]:
-            most_recent_date = datetime.strptime(case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"][0]["DOCUMENT_DATE"], "%Y-%m-%d")
+        if "DOCUMENT_DATE" in cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"][0]:
+            most_recent_date = datetime.strptime(cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"][0]["DOCUMENT_DATE"], "%Y-%m-%d")
         on_the_merits_count = 0
-        for i in range(len(case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"])):
+        for i in range(len(cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"])):
             date_cur = datetime(1900, 1, 1)
-            if "DOCUMENT_DATE" in case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"][i]:
-                date_cur = datetime.strptime(case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"][i]["DOCUMENT_DATE"], "%Y-%m-%d")
+            if "DOCUMENT_DATE" in cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"][i]:
+                date_cur = datetime.strptime(cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"][i]["DOCUMENT_DATE"], "%Y-%m-%d")
             if date_cur > most_recent_date:
                 most_recent_date = date_cur
                 most_recent_doc_index = i
-            if "SUBTYPE" in case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"][i]:
-                if case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"][i]["SUBTYPE"] == "ON_THE_MERITS":
+            if "SUBTYPE" in cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"][i]:
+                if cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"][i]["SUBTYPE"] == "ON_THE_MERITS":
                     on_the_merits_count += 1
         if on_the_merits_count > 0:
             # print(most_recent_date, most_recent_doc_index)
-            # print(case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"][most_recent_doc_index])
-            case_resolution = case_json[0]["BINDER"]["DOCKETS"][0]["DOCUMENTS"][most_recent_doc_index]["WINNER"]
+            # print(cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"][most_recent_doc_index])
+            case_resolution = cj["BINDER"]["DOCKETS"][0]["DOCUMENTS"][most_recent_doc_index].get("WINNER", "UNKNOWN")
     return case_resolution
 
 def helper_retrieve_case_json(client, binder_id):

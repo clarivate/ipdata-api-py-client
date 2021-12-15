@@ -91,7 +91,11 @@ def get_derived_case_status(case_json):
         Open, Terminated
         If WITHDRAWN OR SETTLED OR CLOSED = TRUE, then case is Terminated, else Open (or undefined would be more appropriate)
     '''
-    cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    has_results = case_json.get("results", None)
+    if has_results:
+        cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    else:
+        cj = case_json[list(case_json.keys())[0]]
     # cj = case_json[0]
     WITHDRAWN, SETTLED, CLOSED = cj["BINDER"].get("WITHDRAWN", "False"), cj["BINDER"].get("SETTLED", "False"), cj["BINDER"].get("CLOSED", "False")
     case_status = "Open"
@@ -111,7 +115,11 @@ def get_derived_case_type_list(case_json):
         DOMAIN_IS_UNFAIR_COMPETITION
         DOMAIN_IS_OTHER
     '''
-    cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    has_results = case_json.get("results", None)
+    if has_results:
+        cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    else:
+        cj = case_json[list(case_json.keys())[0]]
     # cj = case_json[0]
     domains = cj["BINDER"].get("DOMAINS", None)
     return domains
@@ -125,7 +133,11 @@ def get_derived_case_resolution(case_json):
            else if there is at least 1 document with document type "on the merits" with a document_winner value, take the value from the most recent of those documents (i.e. "APPLICANT WIN", "OPPONENT WIN", "NONE WIN", "BOTH WIN")
            else "UNKNOWN"
     '''
-    cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    has_results = case_json.get("results", None)
+    if has_results:
+        cj = case_json["results"][0][list(case_json["results"][0].keys())[0]]
+    else:
+        cj = case_json[list(case_json.keys())[0]]
     # cj = case_json[0]
     WITHDRAWN, SETTLED, CLOSED = cj["BINDER"].get("WITHDRAWN", "False"), cj["BINDER"].get("SETTLED", "False"), cj["BINDER"].get("CLOSED", "False")
     case_resolution = "UNKNOWN"
@@ -156,4 +168,7 @@ def get_derived_case_resolution(case_json):
     return case_resolution
 
 def helper_retrieve_case_json(client, binder_id):
-    return client.get_doc(ip_type="caselaw", id=binder_id)
+    res = client.get_doc(ip_type="caselaw", id=binder_id)
+    if not res.get("results", None):
+        raise UserError("Invalid document ids. Please check and use the correct ids.")
+    return res

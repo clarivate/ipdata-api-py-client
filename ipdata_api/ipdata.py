@@ -352,11 +352,23 @@ class IPDataClient:
         return self.__submit_post(url, self.query.create_query(self.fields, self.agg, self.groupby, self.orderby, self.offset, self.limit))
 
     def get_doc(self, id, ip_type="caselaw"):
+        if ip_type not in self.get_ip_types():
+            raise UserError("Invalid ip source type. Please check your request and try again")
         if not id:
             raise UserError("'id' for the document is required for document retrieval!")
-        if ip_type in self.get_ip_types():
-            url = urljoin(self.base_url, ip_type + "/document/json/" + str(id))
+        if isinstance(id, list) and len(id) != 1: # POST request
+            url = urljoin(self.base_url, ip_type + "/document/json/")
             print(url)
-        else:
-            raise UserError("Invalid ip source type. Please check your request and try again")
+            if ip_type == "caselaw":
+                data = {"GUIDS": id}
+            elif ip_type == "patents":
+                data = {"DOCUMENT_IDS": id}
+            elif ip_type == "trademarks":
+                data = {"IDS": id}
+            return self.__submit_post(url, data)
+        elif isinstance(id, list) and len(id) == 1: # GET request, extract the single id
+            id = str(id[0])
+        # GET request
+        url = urljoin(self.base_url, ip_type + "/document/json/" + str(id))
+        print(url)
         return self.__submit_get(url)

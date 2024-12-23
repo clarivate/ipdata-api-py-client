@@ -19,3 +19,18 @@ Full Documentation for the IPData-API is available here: https://developer.clari
 1. create a new virtual environment and activate the environment by running `./venv.sh`
 2. install all required dependencies by run `pip install --upgrade -r requirements.txt -r requirements-dev.txt`
 3. simply try the exmaple files under /examples folder by run `python exmaple_..` (woking on uploading the api wrapper to PyPI to use as a package)
+
+## Installing as standalone package
+The client can be installed directly with pip or included in another project's requirements by prefixing the repo address with `git+`
+```bash
+# installing directly
+pip install git+https://github.com/clarivate/ipdata-api-py-client
+
+# example of use in requirements
+git+https://github.com/clarivate/ipdata-api-py-client
+```
+
+The development requirements are included as an optional dependency:
+```bash
+pip install 'ipdata-api-client[dev] @ git+https://github.com/clarivate/ipdata-api-py-client'
+```

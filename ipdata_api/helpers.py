@@ -1,5 +1,7 @@
 from .ipdata import IPDataClient
 from datetime import datetime
+from .error import UserError
+
 
 def helper_search_party_cases(client, party_names=[], operator="EQ", domain_types=["PATENT"], area=[], party_role="", exofficio="False", first_action_type="", result_fields=["BINDER_ID"]):  
     ''' This is a helper function finds the cases relating to the party and returns a list of Binder IDs associated. With the Binder IDs, you can retrieve the case details using helper_retrieve_case_json()
